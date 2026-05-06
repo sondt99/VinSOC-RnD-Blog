@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { defaultMetadata } from "@/lib/seo/metadata";
 import "./globals.css";
 import "@/styles/article.css";
+import "katex/dist/katex.min.css";
 
 const displayFont = Share_Tech_Mono({
   weight: "400",
