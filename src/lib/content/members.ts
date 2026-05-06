@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
-import { MEMBERS_DIR } from "./paths";
+import { MEMBER_ASSETS_DIR, MEMBERS_DIR } from "./paths";
 import { MemberFrontmatterSchema } from "./schemas";
 import { compileMarkdown } from "./markdown";
 
@@ -29,6 +29,22 @@ export type Member = {
   html: string;
 };
 
+const MEMBER_AVATAR_EXTENSIONS = ["jpeg", "jpg", "png", "webp", "avif", "gif"];
+
+async function getAutoMemberAvatar(handle: string): Promise<string | undefined> {
+  for (const ext of MEMBER_AVATAR_EXTENSIONS) {
+    const filename = `${handle}.${ext}`;
+    try {
+      await fs.access(path.join(MEMBER_ASSETS_DIR, filename));
+      return `/assets/members/${filename}`;
+    } catch {
+      // try next supported extension
+    }
+  }
+
+  return undefined;
+}
+
 async function readMemberFile(filename: string): Promise<Member | null> {
   const slug = filename.replace(/\.md$/, "");
   const filePath = path.join(MEMBERS_DIR, filename);
@@ -45,12 +61,13 @@ async function readMemberFile(filename: string): Promise<Member | null> {
   if (fm.status === "hidden") return null;
 
   const compiled = await compileMarkdown(content);
+  const avatar = fm.avatar ?? (await getAutoMemberAvatar(fm.handle));
 
   return {
     slug,
     name: fm.name,
     handle: fm.handle,
-    avatar: fm.avatar,
+    avatar,
     role: fm.role,
     status: fm.status,
     location: fm.location,
@@ -98,12 +115,13 @@ export async function getMember(slug: string): Promise<Member | null> {
   if (fm.status === "hidden") return null;
 
   const compiled = await compileMarkdown(content);
+  const avatar = fm.avatar ?? (await getAutoMemberAvatar(fm.handle));
 
   return {
     slug,
     name: fm.name,
     handle: fm.handle,
-    avatar: fm.avatar,
+    avatar,
     role: fm.role,
     status: fm.status,
     location: fm.location,

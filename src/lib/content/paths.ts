@@ -6,3 +6,4 @@ export const POSTS_DIR = path.join(CONTENT_ROOT, "posts");
 export const MEMBERS_DIR = path.join(CONTENT_ROOT, "members");
 export const PAGES_DIR = path.join(CONTENT_ROOT, "pages");
 export const ASSETS_DIR = path.join(CONTENT_ROOT, "assets");
+export const MEMBER_ASSETS_DIR = path.join(ASSETS_DIR, "members");
