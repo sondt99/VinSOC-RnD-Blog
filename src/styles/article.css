@@ -211,8 +211,8 @@
   margin: 2.5em 0;
 }
 
-/* rehype-pretty-code — fragment wrapper owns all borders, shape, shadow */
-.article [data-rehype-pretty-code-fragment] {
+/* rehype-pretty-code — figure wrapper owns all borders, shape, shadow */
+.article [data-rehype-pretty-code-figure] {
   position: relative;
   border: 1px solid var(--line);
   border-top: 3px solid var(--accent-red);
@@ -224,12 +224,12 @@
   transition: box-shadow 0.2s ease;
 }
 
-.article [data-rehype-pretty-code-fragment]:hover {
+.article [data-rehype-pretty-code-figure]:hover {
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
 }
 
-/* Pre inside fragment: strip its own border/margin/radius (fragment handles it) */
-.article [data-rehype-pretty-code-fragment] > pre {
+/* Pre inside figure: strip its own border/margin/radius (figure handles it) */
+.article [data-rehype-pretty-code-figure] > pre {
   margin: 0;
   border: none;
   border-radius: 0;

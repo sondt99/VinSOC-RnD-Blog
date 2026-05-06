@@ -84,7 +84,7 @@ export function ArticleContent({ html }: { html: string }) {
       const code = pre.querySelector("code");
       if (!code) continue;
 
-      const fragment = pre.closest<HTMLElement>("[data-rehype-pretty-code-fragment]");
+      const fragment = pre.closest<HTMLElement>("[data-rehype-pretty-code-figure]");
       const lang = code.getAttribute("data-language");
 
       // --- Language header bar (skip if rehype-pretty-code title already present) ---
