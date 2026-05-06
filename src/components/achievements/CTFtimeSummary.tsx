@@ -38,7 +38,10 @@ export function CTFtimeSummary({ data }: CTFtimeSummaryProps) {
           <StatCard label="Overall Rank" value={`#${team.overallPlace}`} />
         )}
         {team.countryPlace != null && (
-          <StatCard label={`${team.country ?? "Country"} Rank`} value={`#${team.countryPlace}`} />
+          <StatCard
+            label={`${team.country ? (new Intl.DisplayNames(["en"], { type: "region" }).of(team.country) ?? team.country) : "Country"} Rank`}
+            value={`#${team.countryPlace}`}
+          />
         )}
         {team.ratingPoints != null && (
           <StatCard label="Rating Points" value={team.ratingPoints.toFixed(1)} />
