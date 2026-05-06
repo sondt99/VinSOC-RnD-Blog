@@ -1,0 +1,41 @@
+{
+  "teamId": 414698,
+  "lastKnownGood": "2026-05-06T00:00:00.000Z",
+  "years": {
+    "2026": [
+      {
+        "year": 2026,
+        "eventName": "ApoorvCTF 2026",
+        "eventUrl": "https://ctftime.org/event/3171",
+        "place": 19,
+        "ctfPoints": 6795,
+        "date": "2026-02-28T12:30:00+00:00",
+        "month": "FEB",
+        "source": "manual-cache"
+      },
+      {
+        "year": 2026,
+        "eventName": "TAMUctf 2026",
+        "eventUrl": "https://ctftime.org/event/3095",
+        "place": 7,
+        "ctfPoints": 2018,
+        "ratingPoints": 87.109,
+        "date": "2026-03-20T22:00:00+00:00",
+        "month": "MAR",
+        "source": "manual-cache"
+      }
+    ],
+    "2025": [
+      {
+        "year": 2025,
+        "eventName": "0CTF 2025",
+        "eventUrl": "https://ctftime.org/event/2997",
+        "place": 20,
+        "ctfPoints": 1412,
+        "date": "2025-12-06T00:00:00+00:00",
+        "month": "DEC",
+        "source": "manual-cache"
+      }
+    ]
+  }
+}

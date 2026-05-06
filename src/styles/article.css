@@ -1,0 +1,351 @@
+/* Article / blog post prose styles */
+.article {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--text);
+  animation: fade-in-up 0.5s var(--ease-out) both;
+}
+
+.article > * + * {
+  margin-top: 1.5em;
+}
+
+.article h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-top: 2.5em;
+  font-family: var(--font-display);
+}
+
+.article h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
+}
+
+.article h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  font-family: var(--font-display);
+}
+
+.article h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.article h2 a,
+.article h3 a,
+.article h4 a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.article h2:hover a,
+.article h3:hover a,
+.article h4:hover a {
+  color: var(--accent-red);
+}
+
+.article p {
+  line-height: 1.8;
+}
+
+.article a {
+  color: var(--accent-red);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.article a:hover {
+  color: var(--accent-orange);
+  text-decoration-color: var(--accent-orange);
+}
+
+.article strong {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.article em {
+  font-style: italic;
+}
+
+.article ul,
+.article ol {
+  padding-left: 1.75em;
+}
+
+.article ul {
+  list-style-type: disc;
+}
+
+.article ol {
+  list-style-type: decimal;
+}
+
+.article li {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+.article li > ul,
+.article li > ol {
+  margin-top: 0.25em;
+}
+
+.article blockquote {
+  border-left: 3px solid var(--accent-red);
+  padding: 0.75em 1.25em;
+  margin: 1.5em 0;
+  background: var(--surface-muted);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-soft);
+  font-style: italic;
+}
+
+.article blockquote p {
+  margin: 0;
+}
+
+.article pre {
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow-x: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin: 1.75em 0;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  position: relative;
+  transition: box-shadow 0.2s ease;
+}
+
+.article pre:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+}
+
+.article pre code {
+  font-family: var(--font-code);
+  font-size: inherit;
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.article code {
+  font-family: var(--font-code);
+  font-size: 0.875em;
+}
+
+.article :not(pre) > code {
+  background: var(--inline-code-bg);
+  color: var(--inline-code-text);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+.article img {
+  display: block;
+  margin: 2em auto;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  max-width: 100%;
+  transition: box-shadow 0.2s ease;
+}
+
+.article img:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.article table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  overflow-x: auto;
+  display: block;
+}
+
+.article table th {
+  text-align: left;
+  padding: 0.6em 1em;
+  background: var(--surface-muted);
+  border-bottom: 2px solid var(--accent-red);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.article table td {
+  padding: 0.6em 1em;
+  border-bottom: 1px solid var(--line-soft);
+  transition: background 0.15s ease;
+}
+
+.article table tr:hover td {
+  background: var(--surface-muted);
+}
+
+.article table tr:last-child td {
+  border-bottom: none;
+}
+
+.article hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2.5em 0;
+}
+
+/* rehype-pretty-code — fragment wrapper owns all borders, shape, shadow */
+.article [data-rehype-pretty-code-fragment] {
+  position: relative;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent-red);
+  border-bottom: 3px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 1.75em 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease;
+}
+
+.article [data-rehype-pretty-code-fragment]:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+}
+
+/* Pre inside fragment: strip its own border/margin/radius (fragment handles it) */
+.article [data-rehype-pretty-code-fragment] > pre {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Language header bar (injected by ArticleContent.tsx) */
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 14px;
+  background: #1d2127;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  gap: 12px;
+}
+
+.code-lang {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* rehype-pretty-code title (when set via markdown meta) */
+.article [data-rehype-pretty-code-title] {
+  background: #1d2127;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 7px 14px;
+  font-size: 0.8125rem;
+  font-family: var(--font-code);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Line numbers */
+.article [data-line-numbers] {
+  counter-reset: line;
+}
+
+.article [data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2em;
+  margin-right: 1.5em;
+  text-align: right;
+  color: rgba(127, 127, 127, 0.45);
+  user-select: none;
+}
+
+/* Copy button — lives inside .code-header, static position */
+.article-copy-btn {
+  padding: 3px 9px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.35);
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  line-height: 1.6;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.article-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.article-copy-btn.copied {
+  background: var(--accent-red);
+  border-color: var(--accent-red);
+  color: #fff;
+}
+
+/* Collapsible code blocks */
+pre.code-collapsed {
+  max-height: 480px;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+}
+
+.article-code-expand {
+  display: block;
+  width: 100%;
+  padding: 7px 16px;
+  margin-top: 2px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-muted);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+  text-align: center;
+}
+
+.article-code-expand:hover {
+  color: var(--accent-red);
+  background: var(--surface);
+}
+
+/* KaTeX math */
+.article .katex-display {
+  overflow-x: auto;
+  padding: 0.5em 0;
+}

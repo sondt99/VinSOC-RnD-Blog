@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run typecheck
+
+      - run: npm run validate:content
+
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://vinsoc.team
+          CTFTIME_TEAM_ID: "414698"
+          CTFTIME_CACHE_REVALIDATE_SECONDS: "21600"
