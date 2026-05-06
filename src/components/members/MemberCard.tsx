@@ -79,38 +79,38 @@ export function MemberCard({ member }: MemberCardProps) {
         </p>
       )}
 
-      {/* Bio — single element */}
-      {member.bio && (
-        <p
-          className="text-[13px] leading-relaxed mb-3 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity duration-250"
-          style={{ color: "var(--text-soft)" }}
-        >
-          {member.bio}
-        </p>
-      )}
+      {/* Expandable section: hidden by default, revealed on hover */}
+      <div
+        className="overflow-hidden transition-all duration-300 ease-in-out w-full sm:max-h-0 sm:opacity-0 sm:group-hover:max-h-64 sm:group-hover:opacity-100 sm:group-focus-within:max-h-64 sm:group-focus-within:opacity-100"
+      >
+        {/* Bio */}
+        {member.bio && (
+          <p className="text-[13px] leading-relaxed mt-3 mb-3" style={{ color: "var(--text-soft)" }}>
+            {member.bio}
+          </p>
+        )}
 
-      {/* Skills */}
-      {member.skills.length > 0 && (
-        <div className="flex flex-wrap justify-center gap-1.5 mb-2 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity duration-250">
-          {member.skills.map((skill) => (
-            <span
-              key={skill}
-              className="text-[10px] tracking-[0.10em] uppercase px-2 py-0.5 rounded"
-              style={{
-                fontFamily: "var(--font-display)",
-                background: "var(--surface-muted)",
-                color: "var(--muted)",
-                border: "1px solid var(--line-soft)",
-              }}
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
-      )}
+        {/* Skills */}
+        {member.skills.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-1.5 mb-3">
+            {member.skills.map((skill) => (
+              <span
+                key={skill}
+                className="text-[10px] tracking-[0.10em] uppercase px-2 py-0.5 rounded"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  background: "var(--surface-muted)",
+                  color: "var(--muted)",
+                  border: "1px solid var(--line-soft)",
+                }}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        )}
 
-      {/* Socials */}
-      <div className="sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity duration-250">
+        {/* Socials */}
         <MemberSocialsLinks socials={member.socials} />
       </div>
     </div>
