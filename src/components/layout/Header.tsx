@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -27,26 +28,21 @@ export function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-0 font-mono text-[18px] font-bold tracking-[0.08em] group"
+          className="flex items-center gap-2 font-mono text-[18px] font-bold tracking-[0.08em] group"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          <span
-            className="transition-all duration-200 group-hover:text-[var(--accent-red)]"
-            style={{ color: "var(--muted)" }}
-          >
-            [
-          </span>
+          <Image
+            src="/assets/logo/vinsoc.jpeg"
+            alt="VinSOC RnD"
+            width={28}
+            height={28}
+            className="rounded-sm"
+          />
           <span
             className="transition-colors duration-200"
             style={{ color: "var(--text)" }}
           >
             VinSOC RnD
-          </span>
-          <span
-            className="transition-all duration-200 group-hover:text-[var(--accent-red)]"
-            style={{ color: "var(--accent-red)" }}
-          >
-            ]
           </span>
         </Link>
 
