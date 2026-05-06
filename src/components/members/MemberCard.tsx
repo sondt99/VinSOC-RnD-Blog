@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import type { Member } from "@/lib/content/members";
 import { MemberSocialsLinks } from "./MemberSocials";
 
@@ -21,26 +22,21 @@ function AvatarFallback({ name }: { name: string }) {
 }
 
 export function MemberCard({ member }: MemberCardProps) {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <div
-      className="group relative flex flex-col items-center p-6 text-center rounded-[18px] anim-fade-in-up shimmer-hover"
+      className="relative flex flex-col items-center p-6 text-center rounded-[18px] anim-fade-in-up shimmer-hover"
       style={{
         border: "1px solid var(--line)",
         background: "var(--surface)",
+        borderColor: hovered ? "var(--accent-red)" : "var(--line)",
+        transform: hovered ? "translateY(-5px)" : "translateY(0)",
+        boxShadow: hovered ? "0 14px 36px rgba(0,0,0,0.10)" : "none",
         transition: "transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease, border-color 0.25s ease",
       }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        el.style.transform = "translateY(-5px)";
-        el.style.boxShadow = "0 14px 36px rgba(0,0,0,0.10)";
-        el.style.borderColor = "var(--accent-red)";
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        el.style.transform = "translateY(0)";
-        el.style.boxShadow = "none";
-        el.style.borderColor = "var(--line)";
-      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* Avatar */}
       <Link
@@ -55,7 +51,12 @@ export function MemberCard({ member }: MemberCardProps) {
             alt={member.name}
             width={64}
             height={64}
-            className="w-16 h-16 rounded-full object-cover ring-2 ring-transparent transition-all duration-300 group-hover:ring-[var(--accent-red)]"
+            className="w-16 h-16 rounded-full object-cover"
+            style={{
+              outline: hovered ? "2px solid var(--accent-red)" : "2px solid transparent",
+              outlineOffset: "2px",
+              transition: "outline-color 0.3s ease",
+            }}
           />
         ) : (
           <AvatarFallback name={member.name} />
@@ -65,8 +66,12 @@ export function MemberCard({ member }: MemberCardProps) {
       {/* Name */}
       <Link href={`/members/${member.slug}`} className="block outline-none">
         <h2
-          className="text-[15px] tracking-[0.12em] uppercase font-semibold mb-1 transition-colors duration-200 group-hover:text-[var(--accent-red)]"
-          style={{ fontFamily: "var(--font-display)", color: "var(--text)" }}
+          className="text-[15px] tracking-[0.12em] uppercase font-semibold mb-1"
+          style={{
+            fontFamily: "var(--font-display)",
+            color: hovered ? "var(--accent-red)" : "var(--text)",
+            transition: "color 0.2s ease",
+          }}
         >
           {member.name}
         </h2>
@@ -79,9 +84,14 @@ export function MemberCard({ member }: MemberCardProps) {
         </p>
       )}
 
-      {/* Expandable section: hidden by default, revealed on hover */}
+      {/* Expandable section */}
       <div
-        className="overflow-hidden transition-all duration-300 ease-in-out w-full sm:max-h-0 sm:opacity-0 sm:group-hover:max-h-64 sm:group-hover:opacity-100 sm:group-focus-within:max-h-64 sm:group-focus-within:opacity-100"
+        className="overflow-hidden w-full"
+        style={{
+          maxHeight: hovered ? "300px" : "0px",
+          opacity: hovered ? 1 : 0,
+          transition: "max-height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease",
+        }}
       >
         {/* Bio */}
         {member.bio && (
