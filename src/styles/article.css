@@ -142,20 +142,6 @@
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
 }
 
-/* Plain code fences (no language) get an injected header before pre */
-.article .code-header + pre {
-  margin-top: 0;
-  border-top: none;
-  border-radius: 0 0 14px 14px;
-}
-
-.article .code-header:has(+ pre) {
-  margin-top: 1.75em;
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--accent-red);
-  border-bottom: none;
-  border-radius: 14px 14px 0 0;
-}
 
 .article pre code {
   font-family: var(--font-code);
@@ -285,9 +271,18 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Line numbers */
+/* Code content + line numbers */
+.article [data-rehype-pretty-code-figure] pre code {
+  padding: 16px 0;
+  min-width: 100%;
+}
+
 .article [data-line-numbers] {
   counter-reset: line;
+}
+
+.article [data-line-numbers] > [data-line] {
+  padding-right: 16px;
 }
 
 .article [data-line-numbers] > [data-line]::before {
@@ -295,7 +290,8 @@
   content: counter(line);
   display: inline-block;
   width: 2em;
-  margin-right: 1.5em;
+  margin-left: 0.875rem;
+  margin-right: 1.25em;
   text-align: right;
   color: rgba(127, 127, 127, 0.45);
   user-select: none;

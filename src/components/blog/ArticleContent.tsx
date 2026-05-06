@@ -2,73 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-const COLLAPSE_THRESHOLD = 30; // lines
-
-// Human-readable language labels
-const LANG_LABELS: Record<string, string> = {
-  js: "JavaScript",
-  javascript: "JavaScript",
-  ts: "TypeScript",
-  typescript: "TypeScript",
-  tsx: "TypeScript JSX",
-  jsx: "JavaScript JSX",
-  py: "Python",
-  python: "Python",
-  sh: "Shell",
-  bash: "Bash",
-  zsh: "Zsh",
-  shell: "Shell",
-  c: "C",
-  cpp: "C++",
-  "c++": "C++",
-  rs: "Rust",
-  rust: "Rust",
-  go: "Go",
-  java: "Java",
-  rb: "Ruby",
-  ruby: "Ruby",
-  php: "PHP",
-  html: "HTML",
-  css: "CSS",
-  scss: "SCSS",
-  sass: "Sass",
-  json: "JSON",
-  yaml: "YAML",
-  yml: "YAML",
-  toml: "TOML",
-  md: "Markdown",
-  markdown: "Markdown",
-  sql: "SQL",
-  graphql: "GraphQL",
-  dockerfile: "Dockerfile",
-  makefile: "Makefile",
-  tex: "LaTeX",
-  latex: "LaTeX",
-  asm: "Assembly",
-  nasm: "Assembly",
-  r: "R",
-  swift: "Swift",
-  kotlin: "Kotlin",
-  scala: "Scala",
-  lua: "Lua",
-  vim: "Vim Script",
-  nginx: "Nginx",
-  powershell: "PowerShell",
-  ps1: "PowerShell",
-  xml: "XML",
-  ini: "INI",
-  env: ".env",
-  diff: "Diff",
-  plaintext: "Plain Text",
-  text: "Plain Text",
-  txt: "Plain Text",
-};
-
-function getLangLabel(lang: string | null): string {
-  if (!lang) return "Code";
-  return LANG_LABELS[lang.toLowerCase()] ?? lang.toUpperCase();
-}
-
 export function ArticleContent({ html }: { html: string }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -76,98 +9,55 @@ export function ArticleContent({ html }: { html: string }) {
     const el = ref.current;
     if (!el) return;
 
-    const pres = Array.from(el.querySelectorAll<HTMLElement>("pre"));
-    const listeners: (() => void)[] = [];
-    const injected: HTMLElement[] = [];
+    const cleanup: (() => void)[] = [];
 
-    for (const pre of pres) {
-      const code = pre.querySelector("code");
+    for (const btn of Array.from(el.querySelectorAll<HTMLButtonElement>(".article-copy-btn"))) {
+      const figure = btn.closest<HTMLElement>("[data-rehype-pretty-code-figure]");
+      const code = figure?.querySelector<HTMLElement>("pre code");
       if (!code) continue;
 
-      const fragment = pre.closest<HTMLElement>("[data-rehype-pretty-code-figure]");
-      const lang = code.getAttribute("data-language");
-
-      // --- Language header bar (skip if rehype-pretty-code title already present) ---
-      const hasTitle = fragment?.querySelector("[data-rehype-pretty-code-title]");
-      if (!hasTitle) {
-        const header = document.createElement("div");
-        header.className = "code-header";
-
-        const langSpan = document.createElement("span");
-        langSpan.className = "code-lang";
-        langSpan.textContent = getLangLabel(lang);
-        header.appendChild(langSpan);
-
-        // Copy button lives in the header
-        const btn = document.createElement("button");
-        btn.textContent = "COPY";
-        btn.className = "article-copy-btn";
-        btn.setAttribute("aria-label", "Copy code");
-
-        const handleCopy = async () => {
-          try {
-            await navigator.clipboard.writeText(code.innerText);
-          } catch {
-            const range = document.createRange();
-            range.selectNode(code);
-            window.getSelection()?.removeAllRanges();
-            window.getSelection()?.addRange(range);
-            document.execCommand("copy");
-            window.getSelection()?.removeAllRanges();
-          }
-          btn.textContent = "COPIED";
-          btn.classList.add("copied");
-          setTimeout(() => {
-            btn.textContent = "COPY";
-            btn.classList.remove("copied");
-          }, 2000);
-        };
-
-        btn.addEventListener("click", handleCopy);
-        listeners.push(() => btn.removeEventListener("click", handleCopy));
-        header.appendChild(btn);
-
-        // Insert header INSIDE the fragment (before pre), or before pre if no fragment
-        if (fragment) {
-          fragment.insertBefore(header, pre);
-        } else {
-          pre.parentNode?.insertBefore(header, pre);
+      const handleCopy = async () => {
+        try {
+          await navigator.clipboard.writeText(code.innerText);
+        } catch {
+          const range = document.createRange();
+          range.selectNode(code);
+          window.getSelection()?.removeAllRanges();
+          window.getSelection()?.addRange(range);
+          document.execCommand("copy");
+          window.getSelection()?.removeAllRanges();
         }
-        injected.push(header);
-      }
 
-      // --- Collapsible for large blocks ---
-      const prettyLines = code.querySelectorAll("[data-line]").length;
-      const plainLines = code.textContent?.replace(/\n$/, "").split("\n").length ?? 0;
-      const lines = prettyLines || plainLines;
-      if (lines > COLLAPSE_THRESHOLD) {
-        pre.classList.add("code-collapsed");
-        const toggle = document.createElement("button");
-        toggle.textContent = `▼  SHOW ALL ${lines} LINES`;
-        toggle.className = "article-code-expand";
+        btn.textContent = "COPIED";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "COPY";
+          btn.classList.remove("copied");
+        }, 2000);
+      };
 
-        const handleToggle = () => {
-          const isCollapsed = pre.classList.toggle("code-collapsed");
-          toggle.textContent = isCollapsed ? `▼  SHOW ALL ${lines} LINES` : "▲  COLLAPSE";
-        };
-
-        toggle.addEventListener("click", handleToggle);
-        listeners.push(() => toggle.removeEventListener("click", handleToggle));
-
-        const anchor = fragment ?? pre;
-        anchor.parentNode?.insertBefore(toggle, anchor.nextSibling);
-        injected.push(toggle);
-      }
+      btn.addEventListener("click", handleCopy);
+      cleanup.push(() => btn.removeEventListener("click", handleCopy));
     }
 
-    return () => {
-      listeners.forEach((fn) => fn());
-      injected.forEach((node) => node.remove());
-      // also restore collapsed state
-      el.querySelectorAll<HTMLElement>("pre.code-collapsed").forEach((pre) =>
-        pre.classList.remove("code-collapsed")
-      );
-    };
+    for (const btn of Array.from(el.querySelectorAll<HTMLButtonElement>(".article-code-expand"))) {
+      const figure = btn.previousElementSibling as HTMLElement | null;
+      const pre = figure?.matches("[data-rehype-pretty-code-figure]")
+        ? figure.querySelector<HTMLElement>("pre")
+        : null;
+      if (!pre) continue;
+
+      const original = btn.textContent ?? "▼  SHOW ALL";
+      const handleToggle = () => {
+        const isCollapsed = pre.classList.toggle("code-collapsed");
+        btn.textContent = isCollapsed ? original : "▲  COLLAPSE";
+      };
+
+      btn.addEventListener("click", handleToggle);
+      cleanup.push(() => btn.removeEventListener("click", handleToggle));
+    }
+
+    return () => cleanup.forEach((fn) => fn());
   }, [html]);
 
   return (
