@@ -7,21 +7,21 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blogs",
-  description: "Technical articles and security research from VinSOC RnD CTF team.",
+  title: "Writeups",
+  description: "CTF writeups and challenge solutions from VinSOC RnD CTF team.",
 };
 
-export default async function BlogPage() {
+export default async function WriteupsPage() {
   const allPosts = await getAllPosts();
-  const posts = allPosts.filter((p) => p.type === "blog");
+  const posts = allPosts.filter((p) => p.type === "writeup");
   const grouped = groupPostsByYear(posts);
   const tags = getAllTags(posts);
 
   return (
     <div>
       <PageHero
-        title="BLOGS"
-        subtitle="TECHNICAL ARTICLES & RESEARCH"
+        title="WRITEUPS"
+        subtitle="CTF SOLUTIONS & CHALLENGE WALKTHROUGHS"
         action={
           <Link
             href="/feed.xml"
@@ -49,7 +49,7 @@ export default async function BlogPage() {
 
         {/* Posts grouped by year */}
         {grouped.length === 0 ? (
-          <EmptyState title="No blog posts yet" description="Check back soon for articles." />
+          <EmptyState title="No writeups yet" description="Check back soon for writeups." />
         ) : (
           <div className="space-y-12">
             {grouped.map(([year, yearPosts]) => (

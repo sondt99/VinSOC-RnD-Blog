@@ -5,6 +5,7 @@ date: "2025-10-29"
 authors:
   - minhht
   - sondt
+type: writeup
 tags:
   - writeup
   - reverse

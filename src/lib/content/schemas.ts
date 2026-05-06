@@ -16,6 +16,7 @@ export const PostFrontmatterSchema = z.object({
       url: z.string().url().optional(),
     })
     .optional(),
+  type: z.enum(["blog", "writeup"]).default("writeup"),
   cover: z.string().optional(),
   draft: z.boolean().default(false),
   featured: z.boolean().default(false),

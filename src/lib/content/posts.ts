@@ -15,6 +15,7 @@ export type PostListItem = {
   updated?: string;
   authors: string[];
   tags: string[];
+  type: "blog" | "writeup";
   ctf?: { name: string; url?: string };
   cover?: string;
   draft: boolean;

@@ -37,7 +37,7 @@ export default async function HomePage() {
           className="text-[13px] tracking-[0.26em] uppercase mb-6 anim-fade-in-up delay-1"
           style={{ color: "var(--muted)", fontFamily: "var(--font-display)" }}
         >
-          VIETNAMESE CTF TEAM
+          VinSOC CTF Team
         </p>
 
         {/* Red divider */}
