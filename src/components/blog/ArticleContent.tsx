@@ -137,7 +137,9 @@ export function ArticleContent({ html }: { html: string }) {
       }
 
       // --- Collapsible for large blocks ---
-      const lines = code.querySelectorAll("[data-line]").length;
+      const prettyLines = code.querySelectorAll("[data-line]").length;
+      const plainLines = code.textContent?.replace(/\n$/, "").split("\n").length ?? 0;
+      const lines = prettyLines || plainLines;
       if (lines > COLLAPSE_THRESHOLD) {
         pre.classList.add("code-collapsed");
         const toggle = document.createElement("button");

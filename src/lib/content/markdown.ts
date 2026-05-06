@@ -43,9 +43,10 @@ export async function compileMarkdown(content: string): Promise<CompiledMarkdown
     })
     .use(rehypeStringify);
 
-  // Add data-line-numbers to all fenced code blocks so CSS renders line numbers
+  // Add data-line-numbers to all fenced code blocks so CSS renders line numbers.
+  // rehype-pretty-code omits data-language for plain triple-backtick fences, so handle both shapes.
   let html = String(await processor.process(content));
-  html = html.replace(/<code data-language=/g, "<code data-line-numbers data-language=");
+  html = html.replace(/<code(?![^>]*data-line-numbers)([^>]*)>/g, "<code data-line-numbers$1>");
 
   return {
     html,

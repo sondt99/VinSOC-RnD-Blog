@@ -123,11 +123,14 @@
 }
 
 .article pre {
-  background: var(--code-bg);
+  background: #282c34;
+  color: #abb2bf;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-top: 3px solid var(--accent-red);
+  border-bottom: 3px solid var(--line);
+  border-radius: 14px;
   overflow-x: auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   margin: 1.75em 0;
   font-size: 0.875rem;
   line-height: 1.65;
@@ -136,7 +139,22 @@
 }
 
 .article pre:hover {
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+}
+
+/* Plain code fences (no language) get an injected header before pre */
+.article .code-header + pre {
+  margin-top: 0;
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+}
+
+.article .code-header:has(+ pre) {
+  margin-top: 1.75em;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent-red);
+  border-bottom: none;
+  border-radius: 14px 14px 0 0;
 }
 
 .article pre code {
