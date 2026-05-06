@@ -77,7 +77,8 @@ export function ArticleContent({ html }: { html: string }) {
     if (!el) return;
 
     const pres = Array.from(el.querySelectorAll<HTMLElement>("pre"));
-    const cleanup: (() => void)[] = [];
+    const listeners: (() => void)[] = [];
+    const injected: HTMLElement[] = [];
 
     for (const pre of pres) {
       const code = pre.querySelector("code");
@@ -123,7 +124,7 @@ export function ArticleContent({ html }: { html: string }) {
         };
 
         btn.addEventListener("click", handleCopy);
-        cleanup.push(() => btn.removeEventListener("click", handleCopy));
+        listeners.push(() => btn.removeEventListener("click", handleCopy));
         header.appendChild(btn);
 
         // Insert header INSIDE the fragment (before pre), or before pre if no fragment
@@ -132,6 +133,7 @@ export function ArticleContent({ html }: { html: string }) {
         } else {
           pre.parentNode?.insertBefore(header, pre);
         }
+        injected.push(header);
       }
 
       // --- Collapsible for large blocks ---
@@ -148,14 +150,22 @@ export function ArticleContent({ html }: { html: string }) {
         };
 
         toggle.addEventListener("click", handleToggle);
-        cleanup.push(() => toggle.removeEventListener("click", handleToggle));
+        listeners.push(() => toggle.removeEventListener("click", handleToggle));
 
         const anchor = fragment ?? pre;
         anchor.parentNode?.insertBefore(toggle, anchor.nextSibling);
+        injected.push(toggle);
       }
     }
 
-    return () => cleanup.forEach((fn) => fn());
+    return () => {
+      listeners.forEach((fn) => fn());
+      injected.forEach((node) => node.remove());
+      // also restore collapsed state
+      el.querySelectorAll<HTMLElement>("pre.code-collapsed").forEach((pre) =>
+        pre.classList.remove("code-collapsed")
+      );
+    };
   }, [html]);
 
   return (
