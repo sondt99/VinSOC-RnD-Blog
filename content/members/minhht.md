@@ -1,6 +1,6 @@
 ---
-name: "Ghost"
-handle: "ghost"
+name: "Tien Minh Hoang"
+handle: "cr0nica1"
 role: "Pwn / Reverse"
 status: "active"
 location: "Vietnam"
@@ -10,8 +10,7 @@ skills:
   - reverse
   - kernel
 socials:
-  github: "https://github.com/ghost"
-  ctftime: "https://ctftime.org/user/654321"
+  github: "https://github.com/cr0nica1"
 order: 2
 ---
 
@@ -24,3 +23,4 @@ Binary exploitation is my passion. I enjoy finding memory corruption vulnerabili
 - Heap exploitation (tcache, fastbin, largebin)
 - Kernel exploitation
 - Browser pwn
+
